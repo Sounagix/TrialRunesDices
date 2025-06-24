@@ -25,6 +25,9 @@ Task 4: Basic Combat System
 - New Input System package
 - Cinemachine package
 
+## external Assets
+- https://assetstore.unity.com/packages/2d/environments/32x32-isometric-tileset-pack-317119
+
 ## How to Use
 
 1. Clone this repository.

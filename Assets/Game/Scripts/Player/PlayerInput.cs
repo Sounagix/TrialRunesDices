@@ -18,10 +18,10 @@ namespace Isometric2DGame.Player
             _inputActions.Player.West.performed  += OnWestMovement;
             _inputActions.Player.East.performed  += OnEastMovement;
 
-            _inputActions.Player.North.canceled += OnMovementStop;
-            _inputActions.Player.South.canceled += OnMovementStop;
-            _inputActions.Player.West.canceled  += OnMovementStop;
-            _inputActions.Player.East.canceled  += OnMovementStop;
+            _inputActions.Player.North.canceled += OnMovementStopFromNorth;
+            _inputActions.Player.South.canceled += OnMovementStopFromSouth;
+            _inputActions.Player.West.canceled  += OnMovementStopFromWest;
+            _inputActions.Player.East.canceled  += OnMovementStopFromEast;
 
             _inputActions.Enable();
         }
@@ -34,10 +34,10 @@ namespace Isometric2DGame.Player
             _inputActions.Player.West.performed -= OnWestMovement;
             _inputActions.Player.East.performed -= OnEastMovement;
 
-            _inputActions.Player.North.canceled -= OnMovementStop;
-            _inputActions.Player.South.canceled -= OnMovementStop;
-            _inputActions.Player.West.canceled  -= OnMovementStop;
-            _inputActions.Player.East.canceled  -= OnMovementStop;
+            _inputActions.Player.North.canceled -= OnMovementStopFromNorth;
+            _inputActions.Player.South.canceled -= OnMovementStopFromSouth;
+            _inputActions.Player.West.canceled  -= OnMovementStopFromWest;
+            _inputActions.Player.East.canceled  -= OnMovementStopFromEast;
         }
 
 
@@ -61,9 +61,24 @@ namespace Isometric2DGame.Player
             PlayerActions.OnMovementToEast?.Invoke(Vector2.right);
         }
 
-        private void OnMovementStop(InputAction.CallbackContext context)
+        private void OnMovementStopFromNorth(InputAction.CallbackContext context)
         {
-            PlayerActions.OnMovementStop?.Invoke();
+            PlayerActions.OnMovementStop?.Invoke(Vector2.up);
+        }
+
+        private void OnMovementStopFromSouth(InputAction.CallbackContext context)
+        {
+            PlayerActions.OnMovementStop?.Invoke(Vector2.down);
+        }
+
+        private void OnMovementStopFromEast(InputAction.CallbackContext context)
+        {
+            PlayerActions.OnMovementStop?.Invoke(Vector2.right);
+        }
+
+        private void OnMovementStopFromWest(InputAction.CallbackContext context)
+        {
+            PlayerActions.OnMovementStop?.Invoke(Vector2.left);
         }
     }
 }
