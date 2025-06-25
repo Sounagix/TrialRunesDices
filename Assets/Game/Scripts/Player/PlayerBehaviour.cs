@@ -3,9 +3,8 @@ using UnityEngine;
 
 namespace Isometric2DGame.Player
 {
-
     [RequireComponent(typeof(Rigidbody2D))]
-    public class PlayerBehaviour : MonoBehaviour
+    public class PlayerBehaviour : Entity
     {
         [SerializeField]
         [Min(1.0f)]
