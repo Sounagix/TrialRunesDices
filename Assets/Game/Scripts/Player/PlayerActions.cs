@@ -10,6 +10,7 @@ namespace Isometric2DGame.Player
         public static Action<Vector2> OnMovementToEast;
         public static Action<Vector2> OnMovementToWest;
         public static Action<Vector2> OnMovementStop;
+        public static Action OnPlayerShoot;
     }
 }
 

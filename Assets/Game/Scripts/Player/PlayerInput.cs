@@ -17,11 +17,13 @@ namespace Isometric2DGame.Player
             _inputActions.Player.South.performed += OnSouthMovement;
             _inputActions.Player.West.performed  += OnWestMovement;
             _inputActions.Player.East.performed  += OnEastMovement;
+            _inputActions.Player.Shoot.performed += OnPlayerShoot;
 
-            _inputActions.Player.North.canceled += OnMovementStopFromNorth;
-            _inputActions.Player.South.canceled += OnMovementStopFromSouth;
-            _inputActions.Player.West.canceled  += OnMovementStopFromWest;
-            _inputActions.Player.East.canceled  += OnMovementStopFromEast;
+
+            _inputActions.Player.North.canceled  += OnMovementStopFromNorth;
+            _inputActions.Player.South.canceled  += OnMovementStopFromSouth;
+            _inputActions.Player.West.canceled   += OnMovementStopFromWest;
+            _inputActions.Player.East.canceled   += OnMovementStopFromEast;
 
             _inputActions.Enable();
         }
@@ -31,13 +33,15 @@ namespace Isometric2DGame.Player
             _inputActions.Disable();
             _inputActions.Player.North.performed -= OnNorthMovement;
             _inputActions.Player.South.performed -= OnSouthMovement;
-            _inputActions.Player.West.performed -= OnWestMovement;
-            _inputActions.Player.East.performed -= OnEastMovement;
+            _inputActions.Player.West.performed  -= OnWestMovement;
+            _inputActions.Player.East.performed  -= OnEastMovement;
+            _inputActions.Player.Shoot.performed -= OnPlayerShoot;
 
-            _inputActions.Player.North.canceled -= OnMovementStopFromNorth;
-            _inputActions.Player.South.canceled -= OnMovementStopFromSouth;
-            _inputActions.Player.West.canceled  -= OnMovementStopFromWest;
-            _inputActions.Player.East.canceled  -= OnMovementStopFromEast;
+
+            _inputActions.Player.North.canceled  -= OnMovementStopFromNorth;
+            _inputActions.Player.South.canceled  -= OnMovementStopFromSouth;
+            _inputActions.Player.West.canceled   -= OnMovementStopFromWest;
+            _inputActions.Player.East.canceled   -= OnMovementStopFromEast;
         }
 
 
@@ -79,6 +83,11 @@ namespace Isometric2DGame.Player
         private void OnMovementStopFromWest(InputAction.CallbackContext context)
         {
             PlayerActions.OnMovementStop?.Invoke(Vector2.left);
+        }
+
+        private void OnPlayerShoot(InputAction.CallbackContext context)
+        {
+            PlayerActions.OnPlayerShoot?.Invoke();
         }
     }
 }

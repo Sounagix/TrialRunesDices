@@ -20,10 +20,15 @@ namespace Isometric2DGame.Player
         [Tooltip("Factor that determines how much the player slows down")]
         private int _slowDownFactor;
 
-        private float _currentSpeed;
-
         [SerializeField]
         private Animator _animator;
+
+        [SerializeField]
+        private BowBehaviour _bowBehaviour;
+
+
+        private float _currentSpeed;
+
 
 
         private Rigidbody2D _rB2D;
@@ -37,7 +42,9 @@ namespace Isometric2DGame.Player
             PlayerActions.OnMovementToEast += MovePlayer;
             PlayerActions.OnMovementToWest += MovePlayer;
             PlayerActions.OnMovementStop += StopPlayer;
+            PlayerActions.OnPlayerShoot += OnPlayerShoot;
         }
+
 
         private void OnDisable()
         {
@@ -46,6 +53,7 @@ namespace Isometric2DGame.Player
             PlayerActions.OnMovementToEast -= MovePlayer;
             PlayerActions.OnMovementToWest -= MovePlayer;
             PlayerActions.OnMovementStop -= StopPlayer;
+            PlayerActions.OnPlayerShoot -= OnPlayerShoot;
         }
 
         private void Awake()
@@ -94,6 +102,15 @@ namespace Isometric2DGame.Player
         public void ReturnNormalSpeed()
         {
             _currentSpeed = _playerSpeed;
+        }
+
+        private void OnPlayerShoot()
+        {
+            Vector3 mouseScreenPos = Input.mousePosition;
+            mouseScreenPos.z = Mathf.Abs(Camera.main.transform.position.z);
+            Vector3 worldMousePos = Camera.main.ScreenToWorldPoint(mouseScreenPos);
+            Vector2 dir = (new Vector2(worldMousePos.x, worldMousePos.y) - (Vector2)transform.position).normalized;
+            _bowBehaviour.Shoot(dir);
         }
     }
 }
