@@ -3,9 +3,8 @@ using UnityEngine;
 
 namespace Isometric2DGame.Player
 {
-
     [RequireComponent(typeof(Rigidbody2D))]
-    public class PlayerBehaviour : MonoBehaviour
+    public class PlayerBehaviour : Entity
     {
         [SerializeField]
         [Min(1.0f)]
@@ -71,8 +70,8 @@ namespace Isometric2DGame.Player
             if (_dir == Vector2.zero)
             {
                 _rB2D.linearVelocity = Vector2.zero;
-                _animator.SetFloat("x", 0);
-                _animator.SetFloat("y", 0);
+                _animator.SetFloat(GeneralData.xVelAnimName, 0);
+                _animator.SetFloat(GeneralData.yVelAnimName, 0);
             }
         }
 
@@ -82,21 +81,19 @@ namespace Isometric2DGame.Player
             if(_rB2D.linearVelocity.magnitude < _playerLimitSpeed)
             {
                 _rB2D.linearVelocity = _dir.normalized * _currentSpeed;
-                _animator.SetFloat("x", dir.x);
-                _animator.SetFloat("y", dir.y);
+                _animator.SetFloat(GeneralData.xVelAnimName, dir.x);
+                _animator.SetFloat(GeneralData.yVelAnimName, dir.y);
             }
         }
 
         public void SlowsDownPlayer()
         {
             _currentSpeed /= _slowDownFactor;
-            print("S");
         }
 
         public void ReturnNormalSpeed()
         {
             _currentSpeed = _playerSpeed;
-            print("B");
         }
     }
 }
