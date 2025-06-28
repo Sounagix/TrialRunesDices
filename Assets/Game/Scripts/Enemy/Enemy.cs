@@ -239,5 +239,12 @@ namespace Isometric2DGame.Enemy
                 StartIdle();
             }
         }
+
+        public override void TakeDamage(int amount)
+        {
+            _initHealth -= amount;
+            if (_initHealth <= 0)
+                Destroy(gameObject);
+        }
     }
 }

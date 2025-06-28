@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class Entity : MonoBehaviour, IDamageable
+public abstract class Entity : MonoBehaviour, IDamageable
 {
     [SerializeField]
     protected int _initHealth;
@@ -14,10 +14,5 @@ public class Entity : MonoBehaviour, IDamageable
             _currentHealth = _initHealth;
     }
 
-    public void TakeDamage(int amount)
-    {
-        _initHealth -= amount;
-        if (_initHealth <= 0)
-            print("Death");
-    }
+    public abstract void TakeDamage(int amount);
 }

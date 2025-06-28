@@ -10,7 +10,7 @@ public class BowBehaviour : MonoBehaviour
     private float _coolDown;
 
     [SerializeField]
-    private float _damage;
+    private int _damage;
 
     [SerializeField]
     private float _projectileSpeed;

@@ -112,5 +112,12 @@ namespace Isometric2DGame.Player
             Vector2 dir = (new Vector2(worldMousePos.x, worldMousePos.y) - (Vector2)transform.position).normalized;
             _bowBehaviour.Shoot(dir);
         }
+
+        public override void TakeDamage(int amount)
+        {
+            _initHealth -= amount;
+            if (_initHealth <= 0)
+                print("Reset");
+        }
     }
 }
