@@ -3,6 +3,8 @@ using UnityEngine;
 using System.Collections.Generic;
 using Isometric2DGame.Player;
 using System.Collections;
+using static UnityEngine.Rendering.DebugUI;
+using UnityEngine.Windows;
 
 namespace Isometric2DGame.Enemy
 {
@@ -41,8 +43,13 @@ namespace Isometric2DGame.Enemy
         private float _meleeCoolDown;
 
         [SerializeField]
+        private float _detectionRange;
+
+        [SerializeField]
         private int _meleeDamage;
 
+        [SerializeField]
+        private Animator _animator;
 
         private int _patrolIndex = -1;
 
@@ -58,6 +65,14 @@ namespace Isometric2DGame.Enemy
         private Coroutine _attackCoroutine;
 
 
+        private void Awake()
+        {
+            CircleCollider2D circleCollider2D = GetComponent<CircleCollider2D>();
+            if (circleCollider2D) 
+                circleCollider2D.radius = _detectionRange;
+        }
+
+
         private void Start()
         {
             StartIdle();
@@ -67,6 +82,8 @@ namespace Isometric2DGame.Enemy
         {
             _sTATE = ENEMY_STATE.IDLE;
             _dir = Vector2.zero;
+            _animator.SetFloat(GeneralData.xVelAnimName, 0);
+            _animator.SetFloat(GeneralData.yVelAnimName, 0);
             _currentTargetPosition = Vector2.zero;
             float timeToStartToPatrol = Random.Range(_minTimeToStop, _maxTimeToStop);
             Invoke(nameof(StartPatrolling), timeToStartToPatrol);
@@ -153,7 +170,8 @@ namespace Isometric2DGame.Enemy
         {
             if (!_enemy && !_sTATE.Equals(ENEMY_STATE.ATTACK))
                 yield return null;
-
+            if (_animator)
+                _animator.SetTrigger(GeneralData.attackTriggerName);
             _enemy.TakeDamage(_meleeDamage);
             yield return new WaitForSecondsRealtime(_meleeCoolDown);
             _attackCoroutine = null;
@@ -185,8 +203,20 @@ namespace Isometric2DGame.Enemy
                 case ENEMY_STATE.NULL:
                     break;
             }
+
+            if (_animator && _dir.magnitude > 0.1f)
+            {
+                _animator.SetFloat(GeneralData.xVelAnimName, Round(_dir.x));
+                _animator.SetFloat(GeneralData.yVelAnimName, Round(_dir.y));
+            }
         }
 
+        private float Round(float value)
+        {
+            if (value >= 0.5f) return 1.0f;
+            if (value <= -0.5f) return -1.0f;
+            return 0.0f;
+        }
 
 
         private void OnTriggerEnter2D(Collider2D collision)

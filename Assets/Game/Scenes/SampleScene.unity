@@ -152,8 +152,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _initHealth: 5
-  _minTimeToStop: 1
-  _maxTimeToStop: 2
+  _minTimeToStop: 2
+  _maxTimeToStop: 4
   _patrolPoints:
   - {fileID: 1453741094}
   - {fileID: 1325686822}
@@ -162,7 +162,9 @@ MonoBehaviour:
   _movementSpeed: 0.007
   _meleeRange: 1
   _meleeCoolDown: 2
+  _detectionRange: 2
   _meleeDamage: 1
+  _animator: {fileID: 427258587}
   _sTATE: 4
 --- !u!70 &56204407
 CapsuleCollider2D:
@@ -309,7 +311,7 @@ Transform:
   m_GameObject: {fileID: 207047699}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0.63, y: -4.98, z: -12.16}
+  m_LocalPosition: {x: -6.87, y: -8.06, z: -12.16}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -634,6 +636,7 @@ GameObject:
   m_Component:
   - component: {fileID: 427258584}
   - component: {fileID: 427258586}
+  - component: {fileID: 427258587}
   m_Layer: 0
   m_Name: Render
   m_TagString: Untagged
@@ -650,7 +653,7 @@ Transform:
   m_GameObject: {fileID: 427258583}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: -1.12, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 1
   m_Children: []
@@ -711,6 +714,28 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!95 &427258587
+Animator:
+  serializedVersion: 7
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 427258583}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 8a30136e826e3b5458607ea05c5d287a, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_AnimatePhysics: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &619394800
 GameObject:
   m_ObjectHideFlags: 0
@@ -1616,7 +1641,7 @@ Transform:
   m_GameObject: {fileID: 939012728}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.63, y: -4.98, z: -2.16}
+  m_LocalPosition: {x: -6.87, y: -8.06, z: -2.16}
   m_LocalScale: {x: 0.5, y: 0.5, z: 0.5}
   m_ConstrainProportionsScale: 1
   m_Children:
@@ -5534,7 +5559,7 @@ Transform:
   m_GameObject: {fileID: 1383627784}
   serializedVersion: 2
   m_LocalRotation: {x: 0.00000011920929, y: -0.000000042146844, z: 5.0242954e-15, w: 1}
-  m_LocalPosition: {x: -0.63, y: -4.98, z: -12.16}
+  m_LocalPosition: {x: -6.87, y: -8.06, z: -12.16}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
