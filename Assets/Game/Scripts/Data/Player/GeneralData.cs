@@ -8,6 +8,6 @@ public class GeneralData
 
     public static string yVelAnimName = "y";
 
-    public static string attackTriggerName = "attack";
+    public static string attackTriggerName = "Attack";
 
 }

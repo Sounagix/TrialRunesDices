@@ -59,6 +59,7 @@ namespace Isometric2DGame.Player
         private void Awake()
         {
             _rB2D = GetComponent<Rigidbody2D>();
+            _currentHealth = _initHealth;
         }
 
         private void Start()
@@ -115,9 +116,11 @@ namespace Isometric2DGame.Player
 
         public override void TakeDamage(int amount)
         {
-            _initHealth -= amount;
-            if (_initHealth <= 0)
+            _currentHealth -= amount;
+            if (_currentHealth <= 0)
                 print("Reset");
+            else
+                PlayerActions.OnPlayerReceiveDamage?.Invoke(_currentHealth, _initHealth);
         }
     }
 }
