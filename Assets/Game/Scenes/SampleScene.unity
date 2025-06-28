@@ -5869,8 +5869,8 @@ MonoBehaviour:
   _coolDown: 1
   _damage: 1
   _projectileSpeed: 10
+  _timeToDestroyProjectile: 2
   _projectilePool: {fileID: 1105971516}
-  _enemyLayerMask: 6
 --- !u!1 &2106753246
 GameObject:
   m_ObjectHideFlags: 0

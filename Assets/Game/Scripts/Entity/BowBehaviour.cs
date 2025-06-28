@@ -16,6 +16,9 @@ public class BowBehaviour : MonoBehaviour
     private float _projectileSpeed;
 
     [SerializeField]
+    private float _timeToDestroyProjectile;
+
+    [SerializeField]
     private Transform _projectilePool;
 
     private Vector2 _dir;
@@ -40,7 +43,7 @@ public class BowBehaviour : MonoBehaviour
         float angle = Mathf.Atan2(_dir.y, _dir.x) * Mathf.Rad2Deg;
         currentProjectile.transform.rotation = Quaternion.Euler(0f, 0f, angle);
 
-        currentProjectile.GetComponent<Projectile>().SetUp(_dir, _projectileSpeed, _damage);
+        currentProjectile.GetComponent<Projectile>().SetUp(_dir, _projectileSpeed, _damage, _timeToDestroyProjectile);
 
         yield return new WaitForSecondsRealtime(_coolDown);
         _shootCoroutine = null;

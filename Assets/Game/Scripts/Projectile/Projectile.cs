@@ -6,7 +6,7 @@ public class Projectile : MonoBehaviour
 
     private float _damage;
 
-    public void SetUp(Vector2 dir, float speed, float damage)
+    public void SetUp(Vector2 dir, float speed, float damage, float timeToDestroy)
     {
         _rBD2 = GetComponent<Rigidbody2D>();
         _damage = damage;
@@ -14,12 +14,12 @@ public class Projectile : MonoBehaviour
         if (_rBD2)
             _rBD2.linearVelocity = dir * speed;
 
-        Destroy(gameObject, 2.0f);
+        Destroy(gameObject, timeToDestroy);
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        print(collision.name);
+        Destroy(gameObject);
     }
 
     private void OnBecameInvisible()
