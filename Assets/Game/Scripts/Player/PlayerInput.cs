@@ -18,6 +18,7 @@ namespace Isometric2DGame.Player
             _inputActions.Player.West.performed  += OnWestMovement;
             _inputActions.Player.East.performed  += OnEastMovement;
             _inputActions.Player.Shoot.performed += OnPlayerShoot;
+            _inputActions.Player.Melee.performed += OnPlayerMeleeAttack;
 
 
             _inputActions.Player.North.canceled  += OnMovementStopFromNorth;
@@ -28,6 +29,8 @@ namespace Isometric2DGame.Player
             _inputActions.Enable();
         }
 
+
+
         private void OnDisable()
         {
             _inputActions.Disable();
@@ -36,6 +39,8 @@ namespace Isometric2DGame.Player
             _inputActions.Player.West.performed  -= OnWestMovement;
             _inputActions.Player.East.performed  -= OnEastMovement;
             _inputActions.Player.Shoot.performed -= OnPlayerShoot;
+            _inputActions.Player.Melee.performed -= OnPlayerMeleeAttack;
+
 
 
             _inputActions.Player.North.canceled  -= OnMovementStopFromNorth;
@@ -88,6 +93,12 @@ namespace Isometric2DGame.Player
         private void OnPlayerShoot(InputAction.CallbackContext context)
         {
             PlayerActions.OnPlayerShoot?.Invoke();
+        }
+
+        private void OnPlayerMeleeAttack(InputAction.CallbackContext context)
+        {
+            PlayerActions.OnPlayerMeleeAttack?.Invoke();
+
         }
     }
 }

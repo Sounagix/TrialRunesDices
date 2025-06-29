@@ -10,4 +10,8 @@ public class GeneralData
 
     public static string attackTriggerName = "Attack";
 
+    public static string deathTriggerName = "Die";
+
+    public static string movementBoolName = "Moving";
+
 }

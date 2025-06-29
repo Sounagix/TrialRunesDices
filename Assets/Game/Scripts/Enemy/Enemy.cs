@@ -57,6 +57,9 @@ namespace Isometric2DGame.Enemy
         [SerializeField]
         protected ENEMY_STATE _sTATE = ENEMY_STATE.NULL;
 
+        [SerializeField]
+        private GameObject _body;
+
 
         protected PlayerBehaviour _enemy;
 
@@ -235,28 +238,29 @@ namespace Isometric2DGame.Enemy
             return Vector2.Distance(transform.position, _enemy.transform.position) <= _detectionRange;
         }
 
-        //private void OnTriggerExit2D(Collider2D collision)
-        //{
-        //    if (collision.CompareTag(GeneralData.playerTag))
-        //    {
-        //        print(collision.name);
-        //        _enemy = null;
-        //        StartIdle();
-        //    }
-        //}
 
         public override void TakeDamage(int amount)
         {
             _currentHealth -= amount;
             if (_currentHealth <= 0)
             {
+                _enemy = null;
+                _dir = Vector2.zero;
                 UiActions.RemoveLifeBar?.Invoke(this);
-                Destroy(gameObject);
+                _animator.SetTrigger(GeneralData.deathTriggerName);
             }
             else
             {
                 UiActions.CreateLifeBar?.Invoke(this);
             }
         }
+
+        public override void OnDie()
+        {
+            GameObject body = Instantiate(_body);
+            body.transform.position = transform.position;
+            Destroy(gameObject);
+        }
     }
+
 }

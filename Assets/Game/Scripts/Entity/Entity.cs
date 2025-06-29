@@ -24,5 +24,12 @@ public abstract class Entity : MonoBehaviour, IDamageable
         return _initHealth;
     }
 
+    public virtual void OnDie()
+    {
+
+    }
+
     public abstract void TakeDamage(int amount);
+
+    public virtual void Shoot() { }
 }

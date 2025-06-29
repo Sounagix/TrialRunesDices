@@ -1,16 +1,12 @@
 using System.Collections;
 using UnityEngine;
 
-public class BowBehaviour : MonoBehaviour
+public class BowBehaviour : BaseAttack
 {
+    [Header("Range Attack")]
+
     [SerializeField]
     private GameObject _projectilePrefab;
-
-    [SerializeField]
-    private float _coolDown;
-
-    [SerializeField]
-    private int _damage;
 
     [SerializeField]
     private float _projectileSpeed;
@@ -21,20 +17,8 @@ public class BowBehaviour : MonoBehaviour
     [SerializeField]
     private Transform _projectilePool;
 
-    private Vector2 _dir;
 
-    private Coroutine _shootCoroutine;
-
-    public void Shoot(Vector2 dir)
-    {
-        if (_shootCoroutine == null)
-        {
-            _dir = dir;
-            _shootCoroutine = StartCoroutine(nameof(ShootProjectile));
-        }
-    }
-
-    private IEnumerator ShootProjectile()
+    protected override IEnumerator AttackCoroutine()
     {
         GameObject currentProjectile = Instantiate(_projectilePrefab, _projectilePool);
         currentProjectile.transform.position = transform.position;
@@ -46,7 +30,7 @@ public class BowBehaviour : MonoBehaviour
         currentProjectile.GetComponent<Projectile>().SetUp(_dir, _projectileSpeed, _damage, _timeToDestroyProjectile);
 
         yield return new WaitForSecondsRealtime(_coolDown);
-        _shootCoroutine = null;
+        _attackCoroutine = null;
     }
 
 }

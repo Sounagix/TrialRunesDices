@@ -388,6 +388,7 @@ MonoBehaviour:
   _attackDamage: 1
   _animator: {fileID: 427258587}
   _sTATE: 4
+  _body: {fileID: 8050256696052970883, guid: 05d4167fb7f41d543b5f517943be9bd3, type: 3}
   _charge: {fileID: 56204411}
 --- !u!1 &207047699
 GameObject:
@@ -924,6 +925,7 @@ GameObject:
   - component: {fileID: 427258584}
   - component: {fileID: 427258586}
   - component: {fileID: 427258587}
+  - component: {fileID: 427258588}
   m_Layer: 7
   m_Name: Render
   m_TagString: Untagged
@@ -1023,6 +1025,18 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &427258588
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 427258583}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9a9671058c8f0a942a7f2efbbac9b733, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &512989815
 GameObject:
   m_ObjectHideFlags: 0
@@ -1059,6 +1073,51 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: -20, y: -20}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!1 &551032566
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 551032568}
+  - component: {fileID: 551032567}
+  m_Layer: 0
+  m_Name: ParticleSystemManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &551032567
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 551032566}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e6f20231ca9c8a547a86556edf7dd09f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _hurtPTC: {fileID: 5501332001921817363, guid: b126ba5788b3e3345a444474e72465d7, type: 3}
+--- !u!4 &551032568
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 551032566}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 1.1205342, y: -3.7390068, z: 0.023665562}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &619394800
 GameObject:
   m_ObjectHideFlags: 0
@@ -1096,7 +1155,7 @@ MonoBehaviour:
   m_Intensity: 1
   m_LightVolumeIntensity: 1
   m_LightVolumeEnabled: 0
-  m_ApplyToSortingLayers: 00000000279ea1546bfa53a8bbfbacc8
+  m_ApplyToSortingLayers: 00000000279ea1546bfa53a8bbfbacc87d8d5c50
   m_LightCookieSprite: {fileID: 0}
   m_DeprecatedPointLightCookieSprite: {fileID: 0}
   m_LightOrder: 0
@@ -1846,6 +1905,54 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 0}
+--- !u!1 &755279447
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 755279448}
+  - component: {fileID: 755279449}
+  m_Layer: 6
+  m_Name: Melee
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &755279448
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 755279447}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 939012733}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &755279449
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 755279447}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 582ca3fd57cbf1a4484af8c7df1f1aa4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _damage: 2
+  _coolDown: 1
+  _numOfRC: 5
+  _rangeAttack: 1
 --- !u!1 &913606799
 GameObject:
   m_ObjectHideFlags: 0
@@ -1857,6 +1964,7 @@ GameObject:
   - component: {fileID: 913606800}
   - component: {fileID: 913606802}
   - component: {fileID: 913606801}
+  - component: {fileID: 913606803}
   m_Layer: 6
   m_Name: Render
   m_TagString: Untagged
@@ -1956,6 +2064,18 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &913606803
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 913606799}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9a9671058c8f0a942a7f2efbbac9b733, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &939012728
 GameObject:
   m_ObjectHideFlags: 0
@@ -1994,6 +2114,7 @@ MonoBehaviour:
   _slowDownFactor: 4
   _animator: {fileID: 913606801}
   _bowBehaviour: {fileID: 2098850713}
+  _meleeBehaviour: {fileID: 755279449}
 --- !u!70 &939012730
 CapsuleCollider2D:
   m_ObjectHideFlags: 0
@@ -2073,6 +2194,7 @@ Transform:
   m_Children:
   - {fileID: 913606800}
   - {fileID: 2098850712}
+  - {fileID: 755279448}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &939012734
@@ -6632,9 +6754,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 82a4ee7db378b2b4eae285b3b3690314, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _projectilePrefab: {fileID: 5571495641413454941, guid: ace44254fa575124e95b71fea20ac575, type: 3}
-  _coolDown: 1
   _damage: 1
+  _coolDown: 2
+  _projectilePrefab: {fileID: 5571495641413454941, guid: ace44254fa575124e95b71fea20ac575, type: 3}
   _projectileSpeed: 10
   _timeToDestroyProjectile: 2
   _projectilePool: {fileID: 1105971516}
@@ -6684,4 +6806,5 @@ SceneRoots:
   - {fileID: 56204409}
   - {fileID: 1544074855}
   - {fileID: 2106753247}
+  - {fileID: 551032568}
   - {fileID: 709971426}

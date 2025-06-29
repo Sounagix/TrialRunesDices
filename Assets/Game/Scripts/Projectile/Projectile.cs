@@ -22,6 +22,8 @@ public class Projectile : MonoBehaviour
         Entity entity = collision.gameObject.GetComponent<Entity>();
         if (entity)
         {
+            float angle = transform.rotation.eulerAngles.z;
+            ParticleActions.CreateHurtPTC(collision.GetContact(0).point, transform.rotation, PTC_TYPE.HURT);
             entity.TakeDamage(_damage);
             Destroy(gameObject);
         }
