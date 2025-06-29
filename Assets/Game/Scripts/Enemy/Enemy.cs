@@ -5,6 +5,7 @@ using Isometric2DGame.Player;
 using System.Collections;
 using static UnityEngine.Rendering.DebugUI;
 using UnityEngine.Windows;
+using Unity.VisualScripting;
 
 namespace Isometric2DGame.Enemy
 {
@@ -20,49 +21,51 @@ namespace Isometric2DGame.Enemy
     public class Enemy : Entity
     {
         [SerializeField]
-        private float _minTimeToStop;
+        protected float _minTimeToStop;
 
         [SerializeField]
-        private float _maxTimeToStop;
+        protected float _maxTimeToStop;
 
         [SerializeField]
         [Tooltip("Points where the enemy is going to patrol")]
-        private List<Transform> _patrolPoints = new();
+        protected List<Transform> _patrolPoints = new();
 
         [SerializeField]
         [Min(0.001f)]
         [Tooltip("Speed used to move")]
-        private float _movementSpeed;
+        protected float _movementSpeed;
 
         [SerializeField]
         [Min(0.5f)]
-        private float _meleeRange;
+        protected float _attackRange;
 
         [SerializeField]
         [Min(0.5f)]
-        private float _meleeCoolDown;
+        protected float _attackCooldown;
 
         [SerializeField]
-        private float _detectionRange;
+        protected float _detectionRange;
 
         [SerializeField]
-        private int _meleeDamage;
+        protected int _attackDamage;
 
         [SerializeField]
-        private Animator _animator;
+        protected Animator _animator;
 
-        private int _patrolIndex = -1;
+        protected int _patrolIndex = -1;
 
         [SerializeField]
-        private ENEMY_STATE _sTATE = ENEMY_STATE.NULL;
+        protected ENEMY_STATE _sTATE = ENEMY_STATE.NULL;
 
-        private Vector2 _currentTargetPosition = Vector2.zero;
+        [SerializeField]
+        private GameObject _body;
 
-        private PlayerBehaviour _enemy;
 
-        private Vector2 _dir = Vector2.zero;
+        protected PlayerBehaviour _enemy;
 
-        private Coroutine _attackCoroutine;
+        protected Vector2 _dir = Vector2.zero;
+
+        protected Coroutine _attackCoroutine;
 
 
         private void Awake()
@@ -70,6 +73,8 @@ namespace Isometric2DGame.Enemy
             CircleCollider2D circleCollider2D = GetComponent<CircleCollider2D>();
             if (circleCollider2D) 
                 circleCollider2D.radius = _detectionRange;
+
+            _currentHealth = _initHealth;
         }
 
 
@@ -78,18 +83,18 @@ namespace Isometric2DGame.Enemy
             StartIdle();
         }
 
-        private void StartIdle()
+        protected virtual void StartIdle()
         {
             _sTATE = ENEMY_STATE.IDLE;
             _dir = Vector2.zero;
+            _enemy = null;
             _animator.SetFloat(GeneralData.xVelAnimName, 0);
             _animator.SetFloat(GeneralData.yVelAnimName, 0);
-            _currentTargetPosition = Vector2.zero;
             float timeToStartToPatrol = Random.Range(_minTimeToStop, _maxTimeToStop);
             Invoke(nameof(StartPatrolling), timeToStartToPatrol);
         }
 
-        private void StartPatrolling() 
+        protected virtual void StartPatrolling() 
         {
             _sTATE = ENEMY_STATE.PATROL;
             int currentIndex = -1;
@@ -99,63 +104,57 @@ namespace Isometric2DGame.Enemy
             }
             while (_patrolIndex == currentIndex);
             _patrolIndex = currentIndex;
-            
-            SetPosition(_patrolPoints[_patrolIndex]);
+        }
+        protected virtual void ManagePatrolling()
+        {
+            float distance = Vector2.Distance(_patrolPoints[_patrolIndex].position, transform.position);
+            if (distance > 0.25f)
+                SetPosition(_patrolPoints[_patrolIndex]);
+            else
+                StartIdle();
         }
 
-        private void StartChase()
+        protected virtual void StartChase()
         {
             _sTATE = ENEMY_STATE.CHASE;
-            SetPosition(_enemy.transform);
         }
 
-        private void StartAttack()
-        {
-            _sTATE = ENEMY_STATE.ATTACK;
-        }
-
-        private void ManagePatrolling()
-        {
-            if (_dir.magnitude > 0)
-            {
-                float distance = Vector2.Distance(_currentTargetPosition, transform.position);
-                if (distance > 0.25f)
-                    transform.Translate(_dir * _movementSpeed);
-                else
-                {
-                    _currentTargetPosition = Vector2.zero;
-                    _dir = Vector2.zero;
-                    StartIdle();
-                }
-            }
-        }
-
-        private void ManageChase()
+        protected virtual void ManageChase()
         {
             if (!_enemy)
                 StartIdle();
             else
             {
                 float distance = Vector2.Distance(transform.position, _enemy.transform.position);
-                if (distance > _meleeRange)
-                {
-                    SetPosition(_enemy.transform);
-                    transform.Translate(_dir * _movementSpeed);
-                }
-                else
+                if (distance < _attackRange)
                 {
                     StartAttack();
                 }
+                else if (distance < _detectionRange)
+                {
+                    SetPosition(_enemy.transform);
+                }
             }
         }
-        private void ManageAttack()
+
+        protected virtual void StartAttack()
+        {
+            _animator.SetFloat(GeneralData.xVelAnimName, 0);
+            _animator.SetFloat(GeneralData.yVelAnimName, 0);
+            _sTATE = ENEMY_STATE.ATTACK;
+        }
+
+
+
+
+        protected virtual void ManageAttack()
         {
             if (!_enemy)
                 StartIdle();
             else
             {
                 float distance = Vector2.Distance(transform.position, _enemy.transform.position);
-                if (distance > _meleeRange)
+                if (distance > _attackRange)
                 {
                     StartChase();
                 }
@@ -166,22 +165,25 @@ namespace Isometric2DGame.Enemy
             }
         }
 
-        private IEnumerator Attack()
+        protected virtual IEnumerator Attack()
         {
-            if (!_enemy && !_sTATE.Equals(ENEMY_STATE.ATTACK))
+            if (!_enemy || !_sTATE.Equals(ENEMY_STATE.ATTACK))
+            {
                 yield return null;
+                _attackCoroutine = null;
+            }
             if (_animator)
                 _animator.SetTrigger(GeneralData.attackTriggerName);
-            _enemy.TakeDamage(_meleeDamage);
-            yield return new WaitForSecondsRealtime(_meleeCoolDown);
+            _enemy.TakeDamage(_attackDamage);
+            yield return new WaitForSecondsRealtime(_attackCooldown);
             _attackCoroutine = null;
         }
 
 
-        private void SetPosition(Transform position)
+        protected void SetPosition(Transform target)
         {
-            _dir = (position.position - transform.position).normalized;
-            _currentTargetPosition = position.position;
+            _dir = (target.position - transform.position).normalized;
+            transform.Translate(_dir * _movementSpeed);
         }
 
 
@@ -204,7 +206,7 @@ namespace Isometric2DGame.Enemy
                     break;
             }
 
-            if (_animator && _dir.magnitude > 0.1f)
+            if (_animator && !_sTATE.Equals(ENEMY_STATE.ATTACK) && _dir.magnitude > 0.1f)
             {
                 _animator.SetFloat(GeneralData.xVelAnimName, Round(_dir.x));
                 _animator.SetFloat(GeneralData.yVelAnimName, Round(_dir.y));
@@ -231,13 +233,34 @@ namespace Isometric2DGame.Enemy
             }
         }
 
-        private void OnTriggerExit2D(Collider2D collision)
+        protected bool OnRange()
         {
-            if (collision.CompareTag(GeneralData.playerTag))
+            return Vector2.Distance(transform.position, _enemy.transform.position) <= _detectionRange;
+        }
+
+
+        public override void TakeDamage(int amount)
+        {
+            _currentHealth -= amount;
+            if (_currentHealth <= 0)
             {
                 _enemy = null;
-                StartIdle();
+                _dir = Vector2.zero;
+                UiActions.RemoveLifeBar?.Invoke(this);
+                _animator.SetTrigger(GeneralData.deathTriggerName);
+            }
+            else
+            {
+                UiActions.CreateLifeBar?.Invoke(this);
             }
         }
+
+        public override void OnDie()
+        {
+            GameObject body = Instantiate(_body);
+            body.transform.position = transform.position;
+            Destroy(gameObject);
+        }
     }
+
 }

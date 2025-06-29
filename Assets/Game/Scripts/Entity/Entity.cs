@@ -1,11 +1,11 @@
 using UnityEngine;
 
-public class Entity : MonoBehaviour, IDamageable
+public abstract class Entity : MonoBehaviour, IDamageable
 {
     [SerializeField]
-    protected int _initHealth;
+    protected float _initHealth;
 
-    protected int _currentHealth;
+    protected float _currentHealth;
 
     public virtual void Heal(int amount)
     {
@@ -14,10 +14,22 @@ public class Entity : MonoBehaviour, IDamageable
             _currentHealth = _initHealth;
     }
 
-    public void TakeDamage(int amount)
+    public float GetCurrentHealth()
     {
-        _initHealth -= amount;
-        if (_initHealth <= 0)
-            print("Death");
+        return _currentHealth;
     }
+
+    public float GetMaxLife()
+    {
+        return _initHealth;
+    }
+
+    public virtual void OnDie()
+    {
+
+    }
+
+    public abstract void TakeDamage(int amount);
+
+    public virtual void Shoot() { }
 }
