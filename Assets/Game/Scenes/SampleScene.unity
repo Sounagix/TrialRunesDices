@@ -221,7 +221,8 @@ GameObject:
   - component: {fileID: 56204408}
   - component: {fileID: 56204410}
   - component: {fileID: 56204407}
-  - component: {fileID: 56204406}
+  - component: {fileID: 56204412}
+  - component: {fileID: 56204411}
   m_Layer: 7
   m_Name: SharkEnemy
   m_TagString: Enemy
@@ -229,33 +230,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &56204406
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 56204405}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a0ac021126580d84bb8de45c6586e7dc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _initHealth: 5
-  _minTimeToStop: 2
-  _maxTimeToStop: 3
-  _patrolPoints:
-  - {fileID: 1453741094}
-  - {fileID: 1325686822}
-  - {fileID: 404771460}
-  - {fileID: 426346605}
-  _movementSpeed: 0.007
-  _meleeRange: 0.75
-  _meleeCoolDown: 2
-  _detectionRange: 3
-  _meleeDamage: 1
-  _animator: {fileID: 427258587}
-  _sTATE: 4
 --- !u!70 &56204407
 CapsuleCollider2D:
   m_ObjectHideFlags: 0
@@ -372,6 +346,49 @@ CircleCollider2D:
   m_CompositeOrder: 0
   m_Offset: {x: 0, y: 0}
   m_Radius: 2.5
+--- !u!114 &56204411
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 56204405}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8c8ae9f472f95634d9c07cb5f4b3780a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _cooldown: 2
+  _requiereTarget: 1
+  _chargeTimeDuration: 0.5
+--- !u!114 &56204412
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 56204405}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f8158092a4693cc4f9afd5d5152d0007, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _initHealth: 5
+  _minTimeToStop: 2
+  _maxTimeToStop: 3
+  _patrolPoints:
+  - {fileID: 1453741094}
+  - {fileID: 1325686822}
+  - {fileID: 404771460}
+  - {fileID: 426346605}
+  _movementSpeed: 0.007
+  _attackRange: 0.75
+  _attackCooldown: 2.25
+  _detectionRange: 3
+  _attackDamage: 1
+  _animator: {fileID: 427258587}
+  _sTATE: 4
+  _charge: {fileID: 56204411}
 --- !u!1 &207047699
 GameObject:
   m_ObjectHideFlags: 0

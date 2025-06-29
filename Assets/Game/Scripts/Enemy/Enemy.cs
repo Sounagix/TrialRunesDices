@@ -21,47 +21,48 @@ namespace Isometric2DGame.Enemy
     public class Enemy : Entity
     {
         [SerializeField]
-        private float _minTimeToStop;
+        protected float _minTimeToStop;
 
         [SerializeField]
-        private float _maxTimeToStop;
+        protected float _maxTimeToStop;
 
         [SerializeField]
         [Tooltip("Points where the enemy is going to patrol")]
-        private List<Transform> _patrolPoints = new();
+        protected List<Transform> _patrolPoints = new();
 
         [SerializeField]
         [Min(0.001f)]
         [Tooltip("Speed used to move")]
-        private float _movementSpeed;
+        protected float _movementSpeed;
 
         [SerializeField]
         [Min(0.5f)]
-        private float _meleeRange;
+        protected float _attackRange;
 
         [SerializeField]
         [Min(0.5f)]
-        private float _meleeCoolDown;
+        protected float _attackCooldown;
 
         [SerializeField]
-        private float _detectionRange;
+        protected float _detectionRange;
 
         [SerializeField]
-        private int _meleeDamage;
+        protected int _attackDamage;
 
         [SerializeField]
-        private Animator _animator;
+        protected Animator _animator;
 
-        private int _patrolIndex = -1;
+        protected int _patrolIndex = -1;
 
         [SerializeField]
-        private ENEMY_STATE _sTATE = ENEMY_STATE.NULL;
+        protected ENEMY_STATE _sTATE = ENEMY_STATE.NULL;
 
-        private PlayerBehaviour _enemy;
 
-        private Vector2 _dir = Vector2.zero;
+        protected PlayerBehaviour _enemy;
 
-        private Coroutine _attackCoroutine;
+        protected Vector2 _dir = Vector2.zero;
+
+        protected Coroutine _attackCoroutine;
 
 
         private void Awake()
@@ -79,7 +80,7 @@ namespace Isometric2DGame.Enemy
             StartIdle();
         }
 
-        private void StartIdle()
+        protected virtual void StartIdle()
         {
             _sTATE = ENEMY_STATE.IDLE;
             _dir = Vector2.zero;
@@ -90,7 +91,7 @@ namespace Isometric2DGame.Enemy
             Invoke(nameof(StartPatrolling), timeToStartToPatrol);
         }
 
-        private void StartPatrolling() 
+        protected virtual void StartPatrolling() 
         {
             _sTATE = ENEMY_STATE.PATROL;
             int currentIndex = -1;
@@ -101,7 +102,7 @@ namespace Isometric2DGame.Enemy
             while (_patrolIndex == currentIndex);
             _patrolIndex = currentIndex;
         }
-        private void ManagePatrolling()
+        protected virtual void ManagePatrolling()
         {
             float distance = Vector2.Distance(_patrolPoints[_patrolIndex].position, transform.position);
             if (distance > 0.25f)
@@ -110,30 +111,30 @@ namespace Isometric2DGame.Enemy
                 StartIdle();
         }
 
-        private void StartChase()
+        protected virtual void StartChase()
         {
             _sTATE = ENEMY_STATE.CHASE;
         }
 
-        private void ManageChase()
+        protected virtual void ManageChase()
         {
             if (!_enemy)
                 StartIdle();
             else
             {
                 float distance = Vector2.Distance(transform.position, _enemy.transform.position);
-                if (distance > _meleeRange)
-                {
-                    SetPosition(_enemy.transform);
-                }
-                else
+                if (distance < _attackRange)
                 {
                     StartAttack();
+                }
+                else if (distance < _detectionRange)
+                {
+                    SetPosition(_enemy.transform);
                 }
             }
         }
 
-        private void StartAttack()
+        protected virtual void StartAttack()
         {
             _animator.SetFloat(GeneralData.xVelAnimName, 0);
             _animator.SetFloat(GeneralData.yVelAnimName, 0);
@@ -143,14 +144,14 @@ namespace Isometric2DGame.Enemy
 
 
 
-        private void ManageAttack()
+        protected virtual void ManageAttack()
         {
             if (!_enemy)
                 StartIdle();
             else
             {
                 float distance = Vector2.Distance(transform.position, _enemy.transform.position);
-                if (distance > _meleeRange)
+                if (distance > _attackRange)
                 {
                     StartChase();
                 }
@@ -161,7 +162,7 @@ namespace Isometric2DGame.Enemy
             }
         }
 
-        private IEnumerator Attack()
+        protected virtual IEnumerator Attack()
         {
             if (!_enemy || !_sTATE.Equals(ENEMY_STATE.ATTACK))
             {
@@ -170,13 +171,13 @@ namespace Isometric2DGame.Enemy
             }
             if (_animator)
                 _animator.SetTrigger(GeneralData.attackTriggerName);
-            _enemy.TakeDamage(_meleeDamage);
-            yield return new WaitForSecondsRealtime(_meleeCoolDown);
+            _enemy.TakeDamage(_attackDamage);
+            yield return new WaitForSecondsRealtime(_attackCooldown);
             _attackCoroutine = null;
         }
 
 
-        private void SetPosition(Transform target)
+        protected void SetPosition(Transform target)
         {
             _dir = (target.position - transform.position).normalized;
             transform.Translate(_dir * _movementSpeed);
@@ -229,14 +230,20 @@ namespace Isometric2DGame.Enemy
             }
         }
 
-        private void OnTriggerExit2D(Collider2D collision)
+        protected bool OnRange()
         {
-            if (collision.CompareTag(GeneralData.playerTag))
-            {
-                _enemy = null;
-                StartIdle();
-            }
+            return Vector2.Distance(transform.position, _enemy.transform.position) <= _detectionRange;
         }
+
+        //private void OnTriggerExit2D(Collider2D collision)
+        //{
+        //    if (collision.CompareTag(GeneralData.playerTag))
+        //    {
+        //        print(collision.name);
+        //        _enemy = null;
+        //        StartIdle();
+        //    }
+        //}
 
         public override void TakeDamage(int amount)
         {
