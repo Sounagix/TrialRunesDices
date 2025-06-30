@@ -31,12 +31,18 @@ namespace Isometric2DGame.Player
         [SerializeField]
         private MeleeBehaviour _meleeBehaviour;
 
+        [SerializeField]
+        private Equipment _equipment;
+
+        private bool _requestForPickItemActive = false;
 
         private float _currentSpeed;
 
         private Rigidbody2D _rB2D;
 
         private Vector2 _dir;
+
+        private ItemOnGame _currentItem;
 
         private void OnEnable()
         {
@@ -47,9 +53,11 @@ namespace Isometric2DGame.Player
             PlayerActions.OnMovementStop += StopPlayer;
             PlayerActions.OnPlayerShoot += OnPlayerShoot;
             PlayerActions.OnPlayerMeleeAttack += OnPlayerMelee;
+            PlayerActions.OnPlayerAction += OnPlayerAction;
+            PlayerActions.EquipPotion += OnPlayerEquipPotion;
+            PlayerActions.EquipWeapon += OnPlayerEquipWeapon;
         }
 
- 
 
         private void OnDisable()
         {
@@ -60,6 +68,9 @@ namespace Isometric2DGame.Player
             PlayerActions.OnMovementStop -= StopPlayer;
             PlayerActions.OnPlayerShoot -= OnPlayerShoot;
             PlayerActions.OnPlayerMeleeAttack -= OnPlayerMelee;
+            PlayerActions.OnPlayerAction -= OnPlayerAction;
+            PlayerActions.EquipPotion -= OnPlayerEquipPotion;
+            PlayerActions.EquipWeapon -= OnPlayerEquipWeapon;
         }
 
         private void Awake()
@@ -85,12 +96,6 @@ namespace Isometric2DGame.Player
             _rB2D.linearVelocity = Vector2.zero;
             _animator.SetFloat(GeneralData.xVelAnimName, dir.x);
             _animator.SetFloat(GeneralData.yVelAnimName, dir.y);
-            //if (_dir == Vector2.zero)
-            //{
-            //    _rB2D.linearVelocity = Vector2.zero;
-            //    _animator.SetFloat(GeneralData.xVelAnimName, _dir.x);
-            //    _animator.SetFloat(GeneralData.yVelAnimName, _dir.y);
-            //}
         }
 
         private void MovePlayer(Vector2 dir)
@@ -132,12 +137,10 @@ namespace Isometric2DGame.Player
                 return 2;
             else if(math.abs(dir.x) > math.abs(dir.y))
             {
-                print("WS");
                 return dir.x > 0 ? 3 : 2;
             }
             else
             {
-                print("NS");
                 return dir.y > 0 ? 1 : 0;
             }
         }
@@ -152,7 +155,7 @@ namespace Isometric2DGame.Player
         }
 
 
-        public override void TakeDamage(int amount)
+        public override void TakeDamage(float amount)
         {
             _currentHealth -= amount;
             if (_currentHealth <= 0)
@@ -164,6 +167,49 @@ namespace Isometric2DGame.Player
         private void OnPlayerMelee()
         {
             _meleeBehaviour.Attack(_dir);
+        }
+
+        private void OnPlayerAction()
+        {
+            if (_requestForPickItemActive && _currentItem && Inventory.Instance.CanAddItem())
+            {
+                _currentItem.PickItem();
+                _currentItem = null;
+            }
+        }
+
+        public void RemoveRequestItemToPick(ItemOnGame item)
+        {
+            _requestForPickItemActive = false;
+            UiActions.RemovePanelInfo?.Invoke(item);
+            _currentItem = null;
+        }
+
+        public void RequestItemToPick(ItemOnGame item)
+        {
+            _requestForPickItemActive = true;
+            _currentItem = item;
+            UiActions.AddPanelInfo?.Invoke(item);
+        }
+
+        private void OnPlayerEquipWeapon(Weapon weapon)
+        {
+            _equipment.EquipWeapon(weapon);
+            switch (weapon.WEAPON_TYPE)
+            {
+                case WEAPON_TYPE.MELEE:
+                    _meleeBehaviour.SetDamage(_equipment.GetDamage());
+                    break;
+                case WEAPON_TYPE.RANGE:
+                    _bowBehaviour.SetDamage(_equipment.GetDamage());
+                    break;
+            }
+        }
+
+        private void OnPlayerEquipPotion(Potion potion)
+        {
+            Heal(potion._amountHealth);
+            PlayerActions.OnPlayerReceiveDamage?.Invoke(_currentHealth, _initHealth);
         }
     }
 }

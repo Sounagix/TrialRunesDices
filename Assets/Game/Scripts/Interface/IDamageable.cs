@@ -2,6 +2,6 @@ using UnityEngine;
 
 public interface IDamageable
 {
-    void TakeDamage(int amount);
-    void Heal(int amount);
+    void TakeDamage(float amount);
+    void Heal(float amount);
 }

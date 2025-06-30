@@ -4,9 +4,9 @@ public class Projectile : MonoBehaviour
 {
     private Rigidbody2D _rBD2;
 
-    private int _damage;
+    private float _damage;
 
-    public void SetUp(Vector2 dir, float speed, int damage, float timeToDestroy)
+    public void SetUp(Vector2 dir, float speed, float damage, float timeToDestroy)
     {
         _rBD2 = GetComponent<Rigidbody2D>();
         _damage = damage;

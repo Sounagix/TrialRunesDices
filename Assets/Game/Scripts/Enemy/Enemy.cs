@@ -239,7 +239,7 @@ namespace Isometric2DGame.Enemy
         }
 
 
-        public override void TakeDamage(int amount)
+        public override void TakeDamage(float amount)
         {
             _currentHealth -= amount;
             if (_currentHealth <= 0)
