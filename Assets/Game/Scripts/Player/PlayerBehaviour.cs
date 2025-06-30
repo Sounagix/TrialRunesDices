@@ -2,6 +2,7 @@ using System;
 using Unity.Mathematics;
 using UnityEngine;
 using UnityEngine.Rendering;
+using UnityEngine.SceneManagement;
 
 namespace Isometric2DGame.Player
 {
@@ -43,6 +44,8 @@ namespace Isometric2DGame.Player
         private Vector2 _dir;
 
         private ItemOnGame _currentItem;
+
+        private NPC _currentNPC;
 
         private void OnEnable()
         {
@@ -159,7 +162,7 @@ namespace Isometric2DGame.Player
         {
             _currentHealth -= amount;
             if (_currentHealth <= 0)
-                print("Reset");
+                SceneManager.LoadScene(0);
             else
                 PlayerActions.OnPlayerReceiveDamage?.Invoke(_currentHealth, _initHealth);
         }
@@ -176,6 +179,22 @@ namespace Isometric2DGame.Player
                 _currentItem.PickItem();
                 _currentItem = null;
             }
+            else if (_currentNPC)
+            {
+                _currentNPC.StartToTalk();
+            }
+        }
+
+        public void RequestNPCAction(NPC nPC)
+        {
+            _currentNPC = nPC;
+            UiActions.AddPanelNPC?.Invoke(nPC);
+        }
+
+        public void RemoveRequestNPCAction(NPC nPC)
+        {
+            UiActions.RemovePanelNPC?.Invoke(nPC);
+            _currentNPC = null;
         }
 
         public void RemoveRequestItemToPick(ItemOnGame item)
