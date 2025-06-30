@@ -1,0 +1,19 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: edef5d350b7f593469fe4e147c4fe1be, type: 3}
+  m_Name: Node
+  m_EditorClassIdentifier: 
+  _npcText: Oh, I see you don't know the song... there are many powerful bows in
+    the world.
+  _choices:
+  - {fileID: 11400000, guid: 7b1f01ca2c50f9e43a87f183146663a8, type: 2}
+  - {fileID: 11400000, guid: c06d6daea3a6b8340ba88d1ef4a1a593, type: 2}

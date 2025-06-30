@@ -26,8 +26,6 @@ namespace Isometric2DGame.Enemy
         [SerializeField]
         protected float _maxTimeToStop;
 
-        [SerializeField]
-        [Tooltip("Points where the enemy is going to patrol")]
         protected List<Transform> _patrolPoints = new();
 
         [SerializeField]
@@ -75,6 +73,11 @@ namespace Isometric2DGame.Enemy
                 circleCollider2D.radius = _detectionRange;
 
             _currentHealth = _initHealth;
+        }
+
+        public void SetUp(List<Transform> patrolPoints) 
+        {
+            _patrolPoints = patrolPoints;
         }
 
 

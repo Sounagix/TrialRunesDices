@@ -37,6 +37,7 @@ public class MeleeBehaviour : BaseAttack
             if (hit.collider != null)
             {
                 hit.collider.gameObject.GetComponent<Entity>().TakeDamage(_damage);
+                break;
             }
         }
 
