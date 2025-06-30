@@ -4,7 +4,7 @@ using UnityEngine;
 public class BaseAttack : MonoBehaviour
 {
     [SerializeField]
-    protected int _damage;
+    protected float _damage;
 
     [SerializeField]
     protected float _coolDown;
@@ -25,5 +25,10 @@ public class BaseAttack : MonoBehaviour
     protected virtual IEnumerator AttackCoroutine()
     {
         yield return null;
+    }
+
+    public void SetDamage(float v)
+    {
+        _damage += v;
     }
 }

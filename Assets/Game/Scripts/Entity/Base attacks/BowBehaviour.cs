@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using UnityEngine;
 
@@ -32,5 +33,4 @@ public class BowBehaviour : BaseAttack
         yield return new WaitForSecondsRealtime(_coolDown);
         _attackCoroutine = null;
     }
-
 }

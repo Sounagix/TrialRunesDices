@@ -13,6 +13,9 @@ namespace Isometric2DGame.Player
         public static Action OnPlayerShoot;
         public static Action OnPlayerMeleeAttack;
         public static Action<float, float> OnPlayerReceiveDamage;
+        public static Action OnPlayerAction;
+        public static Action<Weapon> EquipWeapon;
+        public static Action<Potion> EquipPotion;
     }
 }
 

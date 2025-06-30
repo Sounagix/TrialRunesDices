@@ -4,8 +4,6 @@ using UnityEngine.InputSystem;
 
 namespace Isometric2DGame.Player
 {
-
-
     public class PlayerInput : MonoBehaviour
     {
         private PlayerSystemInput _inputActions;
@@ -19,7 +17,8 @@ namespace Isometric2DGame.Player
             _inputActions.Player.East.performed  += OnEastMovement;
             _inputActions.Player.Shoot.performed += OnPlayerShoot;
             _inputActions.Player.Melee.performed += OnPlayerMeleeAttack;
-
+            _inputActions.Player.Action.performed += OnPlayerAction;
+            _inputActions.Player.OpenInventory.performed += OnOpenInventory;
 
             _inputActions.Player.North.canceled  += OnMovementStopFromNorth;
             _inputActions.Player.South.canceled  += OnMovementStopFromSouth;
@@ -28,7 +27,6 @@ namespace Isometric2DGame.Player
 
             _inputActions.Enable();
         }
-
 
 
         private void OnDisable()
@@ -40,7 +38,8 @@ namespace Isometric2DGame.Player
             _inputActions.Player.East.performed  -= OnEastMovement;
             _inputActions.Player.Shoot.performed -= OnPlayerShoot;
             _inputActions.Player.Melee.performed -= OnPlayerMeleeAttack;
-
+            _inputActions.Player.Action.performed -= OnPlayerAction;
+            _inputActions.Player.OpenInventory.performed -= OnOpenInventory;
 
 
             _inputActions.Player.North.canceled  -= OnMovementStopFromNorth;
@@ -49,6 +48,10 @@ namespace Isometric2DGame.Player
             _inputActions.Player.East.canceled   -= OnMovementStopFromEast;
         }
 
+        private void OnPlayerAction(InputAction.CallbackContext context)
+        {
+            PlayerActions.OnPlayerAction?.Invoke();
+        }
 
         private void OnNorthMovement(InputAction.CallbackContext context)
         {
@@ -99,6 +102,11 @@ namespace Isometric2DGame.Player
         {
             PlayerActions.OnPlayerMeleeAttack?.Invoke();
 
+        }
+
+        private void OnOpenInventory(InputAction.CallbackContext context)
+        {
+            UiActions.OnOpenInventory?.Invoke();
         }
     }
 }
