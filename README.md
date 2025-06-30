@@ -18,6 +18,17 @@ Task 2: Isometric Player Movement and Input System
 Task 3: AI State Machine for Enemy Behavior  
 Task 4: Basic Combat System
 
+## Planning & Time Estimation
+
+| Task        | Description                              | Estimated Time | Actual Time |
+|-------------|------------------------------------------|----------------|-------------|
+| Task 1      | Project setup + GitHub integration       | 2.0 h          | 0.45h       |
+| Task 2      | Isometric movement + Input System        | 5.0 h          | 6.30h       |
+| Task 3      | Enemy AI with FSM                        | 7.0 h          | 5.45h       |
+| Task 4.1    | Implement a Basic Combat System          | 7.3 h          | 8.45h       |
+| Task 4.2    | Implement a Simple Inventory System      | 9.0 h          | 10.3h       |
+| Task 4.3    | Dialogue System						     | 13.3 h         | 7.5 h       |
+
 ## Requirements
 
 - Unity Editor version `6000.0.24f1`
